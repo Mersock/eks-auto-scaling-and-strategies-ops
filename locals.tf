@@ -31,8 +31,8 @@ locals {
   aws_load_balancer_controller_service_account = "aws-load-balancer-controller-sa"
 
   common_tags = {
-    Project    = var.project_name
+    Project        = var.project_name
     MaintainerName = "Mersock"
-    ManagedBy  = "terraform"
+    ManagedBy      = "terraform"
   }
 }
