@@ -32,7 +32,7 @@ resource "helm_release" "argocd_root_application" {
           awsRegion      = var.aws_region
           clusterName    = module.eks.cluster_name
           vpcId          = module.vpc.vpc_id
-          targetGroupArn = aws_lb_target_group.nginx.arn
+          targetGroupArn = aws_lb_target_group.eks_pod_apps.arn
 
           karpenter = {
             interruptionQueueName = module.karpenter.queue_name
