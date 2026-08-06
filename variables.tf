@@ -1,7 +1,7 @@
 variable "project_name" {
   description = "Project name."
   type        = string
-  default     = "eks-auto-scaling-and-strategies-ops"
+  default     = "eks-ops"
 }
 
 // Singapore
