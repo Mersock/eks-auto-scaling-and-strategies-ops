@@ -1,0 +1,9 @@
+project_name    = "hello-project"
+aws_region      = "ap-southeast-1"
+eks_version     = "1.36"
+vpc_cidr        = "10.0.0.0/16"
+gitops_repo_url = "https://github.com/hello.git"
+
+# Optional override
+# gitops_target_revision = "main"
+# gitops_root_path       = "gitops/bootstrap"
