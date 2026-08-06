@@ -1,4 +1,5 @@
 module "eks" {
+  depends_on = [module.vpc]
   source  = "terraform-aws-modules/eks/aws"
   version = "21.24.1"
 
