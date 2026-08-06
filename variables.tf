@@ -46,20 +46,3 @@ variable "argocd_chart_version" {
   type        = string
   default     = "10.3.0"
 }
-
-variable "gitops_repo_url" {
-  description = "GitOps repository URL"
-  type        = string
-}
-
-variable "gitops_target_revision" {
-  description = "GitOps branch revision"
-  type        = string
-  default     = "main"
-}
-
-variable "gitops_root_path" {
-  description = "Repository path root Argo CD"
-  type        = string
-  default     = "gitops/bootstrap"
-}
