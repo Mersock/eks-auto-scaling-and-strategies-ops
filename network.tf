@@ -19,3 +19,9 @@ module "vpc" {
     "karpenter.sh/discovery" = local.cluster_name
   }
 }
+
+resource "terraform_data" "private_subnets_ready" {
+  input = module.vpc.private_subnets
+
+  depends_on = [module.vpc]
+}
