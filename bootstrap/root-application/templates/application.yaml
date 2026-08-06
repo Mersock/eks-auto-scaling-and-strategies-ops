@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.rootApplication.name | quote }}
+  namespace: {{ .Values.rootApplication.namespace | quote }}
+spec:
+  project: default
+  source:
+    repoURL: {{ required "rootApplication.repoURL is required" .Values.rootApplication.repoURL | quote }}
+    targetRevision: {{ .Values.rootApplication.targetRevision | quote }}
+    path: {{ .Values.rootApplication.path | quote }}
+    helm:
+      valuesObject:
+{{ toYaml .Values.gitopsValues | nindent 8 }}
+  destination:
+    server: {{ .Values.rootApplication.destinationServer | quote }}
+    namespace: {{ .Values.rootApplication.destinationNamespace | quote }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
