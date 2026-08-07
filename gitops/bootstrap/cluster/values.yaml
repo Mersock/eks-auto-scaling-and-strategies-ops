@@ -1,12 +1,10 @@
 gitops:
   repoURL: ""
-  targetRevision: main
+  targetRevision: "main"
 
 global:
   awsRegion: ""
   clusterName: ""
   vpcId: ""
-  targetGroupArn: ""
   karpenter:
     interruptionQueueName: ""
-    nodeRoleName: ""

@@ -47,7 +47,6 @@ resource "helm_release" "argocd_root_application" {
 
           karpenter = {
             interruptionQueueName = module.karpenter.queue_name
-            nodeRoleName          = module.karpenter.node_iam_role_name
           }
         }
       }

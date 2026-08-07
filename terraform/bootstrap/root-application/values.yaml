@@ -3,7 +3,7 @@ rootApplication:
   namespace: argocd
   repoURL: ""
   targetRevision: main
-  path: gitops/bootstrap
+  path: gitops/bootstrap/cluster
   destinationServer: https://kubernetes.default.svc
   destinationNamespace: argocd
 
