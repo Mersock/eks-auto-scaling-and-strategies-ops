@@ -4,6 +4,7 @@ module "karpenter" {
 
   cluster_name         = module.eks.cluster_name
   namespace            = local.karpenter_namespace
+  service_account      = local.karpenter_service_account
   enable_inline_policy = true
 
   tags = local.common_tags
