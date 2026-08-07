@@ -16,10 +16,10 @@ spec:
         settings:
           clusterName: {{ required "global.clusterName is required" .Values.global.clusterName | quote }}
           interruptionQueue: {{ required "global.karpenter.interruptionQueueName is required" .Values.global.karpenter.interruptionQueueName | quote }}
-      controller:
-        env:
-          - name: AWS_REGION
-            value: {{ required "global.awsRegion is required" .Values.global.awsRegion | quote }}
+      # controller:
+      #   env:
+      #     - name: AWS_REGION
+      #       value: {{ required "global.awsRegion is required" .Values.global.awsRegion | quote }}
   destination:
     server: https://kubernetes.default.svc
     namespace: karpenter
