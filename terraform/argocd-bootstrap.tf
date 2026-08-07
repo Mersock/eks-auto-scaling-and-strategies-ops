@@ -39,6 +39,11 @@ resource "helm_release" "argocd_root_application" {
       }
 
       gitopsValues = {
+        gitops = {
+          repoURL        = var.gitops_repo_url
+          targetRevision = var.gitops_target_revision
+        }
+      
         global = {
           awsRegion      = var.aws_region
           clusterName    = module.eks.cluster_name
