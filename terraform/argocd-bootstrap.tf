@@ -55,6 +55,6 @@ resource "helm_release" "argocd_root_application" {
   ]
 
   wait = false
-  
+
   depends_on = [helm_release.argocd]
 }
