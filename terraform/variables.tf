@@ -37,7 +37,7 @@ variable "gitops_target_revision" {
 variable "gitops_root_path" {
   description = "Repository path the Argo CD"
   type        = string
-  default     = "gitops/bootstrap"
+  default     = "gitops/bootstrap/cluster"
 }
 
 
