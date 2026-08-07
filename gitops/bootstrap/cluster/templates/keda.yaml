@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keda
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: {{ required "gitops.repoURL is required" .Values.gitops.repoURL | quote }}
+    targetRevision: {{ .Values.gitops.targetRevision | quote }}
+    path: gitops/bootstrap/charts/keda
+    helm:
+      valueFiles:
+        - ../../values/keda.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: keda
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

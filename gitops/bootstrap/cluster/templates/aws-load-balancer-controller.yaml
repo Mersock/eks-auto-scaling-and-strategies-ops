@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aws-load-balancer-controller
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: {{ required "gitops.repoURL is required" .Values.gitops.repoURL | quote }}
+    targetRevision: {{ .Values.gitops.targetRevision | quote }}
+    path: gitops/bootstrap/charts/aws-load-balancer-controller
+    helm:
+      valueFiles:
+        - ../../values/aws-load-balancer-controller.yaml
+      valuesObject:
+        clusterName: {{ required "global.clusterName is required" .Values.global.clusterName | quote }}
+        region: {{ required "global.awsRegion is required" .Values.global.awsRegion | quote }}
+        vpcId: {{ required "global.vpcId is required" .Values.global.vpcId | quote }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
