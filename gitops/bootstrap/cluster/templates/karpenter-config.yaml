@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: karpenter-config
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+spec:
+  project: default
+  source:
+    repoURL: {{ required "gitops.repoURL is required" .Values.gitops.repoURL | quote }}
+    targetRevision: {{ .Values.gitops.targetRevision | quote }}
+    path: gitops/bootstrap/karpenter-config
+    helm:
+      valuesObject:
+        clusterName: {{ required "global.clusterName is required" .Values.global.clusterName | quote }}
+        nodeRoleName: {{ required "global.karpenter.nodeRoleName is required" .Values.global.karpenter.nodeRoleName | quote }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
