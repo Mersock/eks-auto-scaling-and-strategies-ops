@@ -8,6 +8,17 @@ resource "helm_release" "argocd" {
   version    = var.argocd_chart_version
 
   depends_on = [module.eks]
+
+  // use http only 
+  values = [
+    yamlencode({
+      configs = {
+        params = {
+          "server.insecure" = true
+        }
+      }
+    })
+  ]
 }
 
 resource "helm_release" "argocd_root_application" {
