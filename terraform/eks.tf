@@ -30,9 +30,9 @@ module "eks" {
     }
   }
 
-  vpc_id = module.vpc.vpc_id
+  vpc_id                   = module.vpc.vpc_id
   control_plane_subnet_ids = module.vpc.private_subnets
-  subnet_ids = terraform_data.private_subnets_ready.output
+  subnet_ids               = terraform_data.private_subnets_ready.output
 
   node_security_group_tags = {
     "karpenter.sh/discovery" = local.cluster_name
