@@ -6,4 +6,5 @@ gitops_repo_url = "https://github.com/hello.git"
 
 # Optional override
 # gitops_target_revision = "main"
+# argocd_chart_version     = "10.3.0"
 # gitops_root_path       = "gitops/bootstrap"
