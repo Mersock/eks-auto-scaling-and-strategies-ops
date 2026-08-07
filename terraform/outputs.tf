@@ -62,3 +62,13 @@ output "argocd_admin_password_command" {
   description = "Command Argo CD administrator password"
   value       = "kubectl --namespace ${local.argocd_namespace} get secret argocd-initial-admin-secret --output jsonpath='{.data.password}' | base64 --decode; echo"
 }
+
+# output "aws_region" {
+#   description = "AWS region"
+#   value       = var.aws_region
+# }
+
+output "vpc_id" {
+  description = "VPC ID"
+  value       = module.vpc.vpc_id
+}

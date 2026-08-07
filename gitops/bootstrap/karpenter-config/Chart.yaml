@@ -1,0 +1,5 @@
+apiVersion: v2
+name: karpenter-config
+description:  EC2NodeClass and NodePool EKS autoscaling
+type: application
+version: 0.1.0
