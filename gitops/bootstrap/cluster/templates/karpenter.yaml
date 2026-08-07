@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: karpenter
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: {{ required "gitops.repoURL is required" .Values.gitops.repoURL | quote }}
+    targetRevision: {{ .Values.gitops.targetRevision | quote }}
+    path: gitops/bootstrap/charts/karpenter
+    helm:
+      valueFiles:
+        - ../../values/karpenter.yaml
+      valuesObject:
+        settings:
+          clusterName: {{ required "global.clusterName is required" .Values.global.clusterName | quote }}
+          interruptionQueue: {{ required "global.karpenter.interruptionQueueName is required" .Values.global.karpenter.interruptionQueueName | quote }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: karpenter
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
