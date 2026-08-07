@@ -1,0 +1,10 @@
+rootApplication:
+  name: root
+  namespace: argocd
+  repoURL: ""
+  targetRevision: main
+  path: gitops/bootstrap
+  destinationServer: https://kubernetes.default.svc
+  destinationNamespace: argocd
+
+gitopsValues: {}
