@@ -4,6 +4,12 @@ variable "project_name" {
   default     = "eks-ops"
 }
 
+variable "cluster_name" {
+  description = "EKS cluster name"
+  type        = string
+  default     = "eks-ops-cluster"
+}
+
 // Singapore
 variable "aws_region" {
   description = "AWS region."
@@ -45,4 +51,9 @@ variable "argocd_chart_version" {
   description = "Argo CD Helm chart version"
   type        = string
   default     = "10.3.0"
+}
+
+variable "cluster_endpoint_public_access_cidrs" {
+  description = "Allow whiltelist to access EKS API endpoint"
+  type        = list(string)
 }

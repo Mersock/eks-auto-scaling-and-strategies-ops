@@ -5,14 +5,15 @@ module "eks" {
   name               = local.cluster_name
   kubernetes_version = var.eks_version
 
-  endpoint_public_access = true
-
+  endpoint_private_access                  = true
+  endpoint_public_access                   = true
+  endpoint_public_access_cidrs             = var.cluster_endpoint_public_access_cidrs
   enable_cluster_creator_admin_permissions = true
 
   // only uses EKS Pod Identity and no requires OpenID Connect Provider IRSA
   enable_irsa = false
 
-  // disabled customer managed KMS key
+  // disabled managed KMS key
   create_kms_key    = false
   encryption_config = null
 
@@ -30,7 +31,8 @@ module "eks" {
     }
   }
 
-  vpc_id                   = module.vpc.vpc_id
+  vpc_id = module.vpc.vpc_id
+
   control_plane_subnet_ids = module.vpc.private_subnets
   subnet_ids               = terraform_data.private_subnets_ready.output
 
@@ -48,9 +50,15 @@ module "eks" {
       desired_size = local.system_node_group.desired_size
       max_size     = local.system_node_group.max_size
 
+      node_repair_config = {
+        enabled = true
+      }
+
       labels = {
         workload-tier = "system"
       }
     }
   }
+
+  tags = local.common_tags
 }
