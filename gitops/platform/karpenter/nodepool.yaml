@@ -29,7 +29,7 @@ spec:
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
-        name: nginx-demo
+        name: eks-ops
   limits:
     cpu: "8"
   disruption:
