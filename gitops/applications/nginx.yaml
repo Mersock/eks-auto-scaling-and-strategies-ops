@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/Mersock/eks-auto-scaling-and-strategies-ops.git
     targetRevision: main
-    path: gitops/workloads/nginx
+    path: gitops/deployments/nginx
     directory:
       recurse: true
   destination:
