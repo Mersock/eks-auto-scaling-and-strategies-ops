@@ -29,18 +29,6 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "gitops_target_revision" {
-  description = "Branch revision used by the Argo CD"
-  type        = string
-  default     = "main"
-}
-
-variable "gitops_root_path" {
-  description = "Repository path the Argo CD"
-  type        = string
-  default     = "gitops/bootstrap/cluster"
-}
-
 
 variable "argocd_chart_version" {
   description = "Argo CD Helm chart version"
