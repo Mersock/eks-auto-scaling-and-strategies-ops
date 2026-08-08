@@ -1,0 +1,31 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: nginx
+  namespace: nginx
+spec:
+  scaleTargetRef:
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    name: nginx
+
+  pollingInterval: 15
+  minReplicaCount: 3
+  maxReplicaCount: 6
+
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://monitoring-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+        metricName: nginx_active_requests_per_second
+        threshold: "100"
+        query: |
+          sum(
+            rate(
+              istio_requests_total{
+                reporter="destination",
+                destination_service_name="nginx-active",
+                destination_service_namespace="nginx"
+              }[1m]
+            )
+          )
