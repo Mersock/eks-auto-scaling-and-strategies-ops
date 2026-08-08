@@ -26,5 +26,5 @@ spec:
 
   tags:
     Name: eks-ops-cluster-karpenter
-    Environment: demo
+    MaintainerName: Mersock
     ManagedBy: karpenter
