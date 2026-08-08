@@ -25,7 +25,8 @@ spec:
           values: ["5"]
         - key: karpenter.k8s.aws/instance-size
           operator: In
-          values: ["large"]
+          # values: ["large"]
+          values: ["medium"]
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
