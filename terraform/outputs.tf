@@ -8,13 +8,18 @@ output "cluster_endpoint" {
   value       = module.eks.cluster_endpoint
 }
 
+output "availability_zones" {
+  description = "Availability Zones"
+  value       = local.availability_zones
+}
+
 output "configure_kubectl_command" {
   description = "Command get kubeconfig file"
   value       = "aws eks update-kubeconfig --region ${var.aws_region} --name ${module.eks.cluster_name}"
 }
 
 output "node_security_group_id" {
-  description = "security group EKS and Karpenter nodes"
+  description = "security group EKS and Karpenter EC2NodeClass"
   value       = module.eks.node_security_group_id
 }
 
@@ -38,29 +43,29 @@ output "aws_load_balancer_controller_role_arn" {
   value       = aws_iam_role.aws_load_balancer_controller.arn
 }
 
-output "nlb_dns_name" {
-  description = "DNS public Network Load Balancer"
-  value       = aws_lb.aws_lb_eks.dns_name
+output "argocd_namespace" {
+  description = "Namespace Argo CD"
+  value       = local.argocd_namespace
 }
 
-output "application_url" {
-  description = "HTTP URL application"
-  value       = "http://${aws_lb.aws_lb_eks.dns_name}"
-}
-
-output "target_group_arn" {
-  description = "Target group arn Argo CD"
-  value       = aws_lb_target_group.eks_pod_apps.arn
-}
-
-output "argocd_public_url_command" {
-  description = "Command public Argo CD URL from NLB"
-  value       = "echo http://$(kubectl --namespace ${local.argocd_namespace} get service argocd-server-public --output jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+output "argocd_port_forward_command" {
+  description = "Command forward port to Argo CD UI"
+  value       = "kubectl --namespace ${local.argocd_namespace} port-forward service/argocd-server 8080:443"
 }
 
 output "argocd_admin_password_command" {
   description = "Command Argo CD administrator password"
   value       = "kubectl --namespace ${local.argocd_namespace} get secret argocd-initial-admin-secret --output jsonpath='{.data.password}' | base64 --decode; echo"
+}
+
+output "apply_root_application_command" {
+  description = "Init GitOps"
+  value       = "kubectl apply -f gitops/bootstrap/root-application.yaml"
+}
+
+output "istio_nlb_hostname_command" {
+  description = "Command print public NLB hostname for Istio gateway"
+  value       = "kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'; echo"
 }
 
 # output "aws_region" {
