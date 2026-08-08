@@ -1,5 +1,7 @@
 clusterName: eks-ops-cluster
 region: ap-southeast-1
+# vpcId: <vpcId is required>
+vpcId: vpc-05f6ef53ee8fccf17
 
 serviceAccount:
   name: aws-load-balancer-controller-sa
