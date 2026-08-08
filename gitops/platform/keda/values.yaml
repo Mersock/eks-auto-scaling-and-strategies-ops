@@ -2,7 +2,7 @@ rbac:
   enabledCustomScaledRefKinds: true
   scaledRefKinds:
     - apiGroup: argoproj.io
-      kind: Rollout
+      kind: rollouts
 
 prometheus:
   operator:
