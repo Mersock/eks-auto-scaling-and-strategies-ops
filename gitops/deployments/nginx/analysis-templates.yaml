@@ -1,0 +1,103 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: nginx-pre-promotion
+  namespace: nginx
+spec:
+  metrics:
+    - name: preview-http-success
+      interval: 5s
+      count: 3
+      failureLimit: 1
+      successCondition: result == "ok"
+      provider:
+        web:
+          url: http://istio-ingressgateway.istio-system.svc.cluster.local/healthz
+          timeoutSeconds: 2
+          headers:
+            - key: x-nginx-preview
+              value: "true"
+          jsonPath: "{$.status}"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: nginx-post-promotion
+  namespace: nginx
+spec:
+  metrics:
+    - name: http-5xx-rate
+      interval: 15s
+      count: 3
+      failureLimit: 2
+      successCondition: result[0] <= 0.01
+      provider:
+        prometheus:
+          address: http://monitoring-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+          query: |
+            (
+              sum(rate(istio_requests_total{
+                reporter="destination",
+                destination_service_name="nginx-active",
+                destination_service_namespace="nginx",
+                response_code=~"5.*"
+              }[1m])) or vector(0)
+            )
+            /
+            clamp_min(
+              sum(rate(istio_requests_total{
+                reporter="destination",
+                destination_service_name="nginx-active",
+                destination_service_namespace="nginx"
+              }[1m])) or vector(0),
+              0.001
+            )
+
+    - name: request-success-rate
+      interval: 15s
+      count: 3
+      failureLimit: 2
+      successCondition: result[0] >= 0.99
+      provider:
+        prometheus:
+          address: http://monitoring-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+          query: |
+            1 - (
+              (
+                sum(rate(istio_requests_total{
+                  reporter="destination",
+                  destination_service_name="nginx-active",
+                  destination_service_namespace="nginx",
+                  response_code=~"5.*"
+                }[1m])) or vector(0)
+              )
+              /
+              clamp_min(
+                sum(rate(istio_requests_total{
+                  reporter="destination",
+                  destination_service_name="nginx-active",
+                  destination_service_namespace="nginx"
+                }[1m])) or vector(0),
+                0.001
+              )
+            )
+
+    - name: p95-latency-seconds
+      interval: 15s
+      count: 3
+      failureLimit: 2
+      successCondition: result[0] <= 1.0
+      provider:
+        prometheus:
+          address: http://monitoring-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+          query: |
+            (
+              histogram_quantile(
+                0.95,
+                sum(rate(istio_request_duration_milliseconds_bucket{
+                  reporter="destination",
+                  destination_service_name="nginx-active",
+                  destination_service_namespace="nginx"
+                }[1m])) by (le)
+              ) / 1000
+            ) or vector(0)

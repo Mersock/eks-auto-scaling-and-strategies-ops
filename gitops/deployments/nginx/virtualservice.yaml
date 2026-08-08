@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: nginx
+  namespace: nginx
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - nginx
+  http:
+    - name: preview-health
+      match:
+        - headers:
+            x-nginx-preview:
+              exact: "true"
+      rewrite:
+        uri: /healthz
+      route:
+        - destination:
+            host: nginx-preview.nginx.svc.cluster.local
+            port:
+              number: 8080
+
+    - name: production
+      route:
+        - destination:
+            host: nginx-active.nginx.svc.cluster.local
+            port:
+              number: 8080
