@@ -19,6 +19,8 @@ spec:
           operator: In
           values:
             - ap-southeast-1a
+            - ap-southeast-1b
+            - ap-southeast-1c
         - key: node.kubernetes.io/instance-type
           operator: In
           values:
