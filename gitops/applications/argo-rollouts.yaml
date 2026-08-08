@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-rollouts
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Mersock/eks-auto-scaling-and-strategies-ops.git
+    targetRevision: main
+    path: gitops/charts/argo-rollouts
+    helm:
+      releaseName: argo-rollouts
+      valueFiles:
+        - ../../platform/argo-rollouts/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo-rollouts
+  syncPolicy:
+    automated:
+      enabled: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

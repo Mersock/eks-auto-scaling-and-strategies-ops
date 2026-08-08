@@ -1,0 +1,5 @@
+clusterName: eks-ops-cluster
+region: ap-southeast-1
+
+serviceAccount:
+  name: aws-load-balancer-controller-sa

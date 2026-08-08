@@ -1,9 +1,0 @@
-serviceAccount:
-  name: karpenter-sa
-
-replicas: 1
-
-controller:
-  env:
-    - name: AWS_REGION
-      value: ap-southeast-1

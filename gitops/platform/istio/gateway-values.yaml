@@ -1,0 +1,21 @@
+replicaCount: 3
+
+autoscaling:
+  enabled: false
+
+service:
+  type: LoadBalancer
+  loadBalancerClass: service.k8s.aws/nlb
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule

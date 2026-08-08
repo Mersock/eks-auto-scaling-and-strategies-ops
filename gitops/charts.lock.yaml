@@ -1,0 +1,37 @@
+charts:
+  argo-rollouts:
+    repository: https://argoproj.github.io/argo-helm
+    chart: argo-rollouts
+    version: 2.41.1
+  istio-base:
+    repository: https://istio-release.storage.googleapis.com/charts
+    chart: base
+    version: 1.30.3
+  istiod:
+    repository: https://istio-release.storage.googleapis.com/charts
+    chart: istiod
+    version: 1.30.3
+  istio-gateway:
+    repository: https://istio-release.storage.googleapis.com/charts
+    chart: gateway
+    version: 1.30.3
+  keda:
+    repository: https://kedacore.github.io/charts
+    chart: keda
+    version: 2.20.2
+  karpenter:
+    repository: oci://public.ecr.aws/karpenter
+    chart: karpenter
+    version: 1.14.0
+  metrics-server:
+    repository: https://kubernetes-sigs.github.io/metrics-server
+    chart: metrics-server
+    version: 3.13.1
+  aws-load-balancer-controller:
+    repository: https://aws.github.io/eks-charts
+    chart: aws-load-balancer-controller
+    version: 3.5.0
+  kube-prometheus-stack:
+    repository: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    version: 88.1.6

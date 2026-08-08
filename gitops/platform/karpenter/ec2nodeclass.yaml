@@ -1,0 +1,30 @@
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: eks-ops
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  role: KarpenterNodeRole-eks-ops-cluster
+
+  amiSelectorTerms:
+    - alias: al2023@v20260801
+
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: eks-ops-cluster
+        Network: private
+
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: eks-ops-cluster
+
+  metadataOptions:
+    httpEndpoint: enabled
+    httpTokens: required
+    httpPutResponseHopLimit: 1
+
+  tags:
+    Name: eks-ops-cluster-karpenter
+    Environment: demo
+    ManagedBy: karpenter
