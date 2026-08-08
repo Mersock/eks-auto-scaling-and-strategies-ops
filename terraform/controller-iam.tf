@@ -21,7 +21,7 @@ resource "aws_iam_role" "aws_load_balancer_controller" {
 
 resource "aws_iam_policy" "aws_load_balancer_controller" {
   name   = "${var.project_name}-aws-load-balancer-controller"
-  policy = file("${path.module}/policies/aws-load-balancer-controller-v3.4.0.json")
+  policy = file("${path.module}/policies/aws-load-balancer-controller-v3.5.0.json")
 }
 
 resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller" {
