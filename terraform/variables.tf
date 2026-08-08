@@ -29,11 +29,6 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "gitops_repo_url" {
-  description = "Boostrap git repository"
-  type        = string
-}
-
 variable "gitops_target_revision" {
   description = "Branch revision used by the Argo CD"
   type        = string
