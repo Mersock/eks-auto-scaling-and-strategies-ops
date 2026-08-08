@@ -1,7 +1,7 @@
 replicas: 1
 
 serviceAccount:
-  name: karpenter
+  name: karpenter-sa
 
 controller:
   env:
